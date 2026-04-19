@@ -9,9 +9,10 @@ collections:
   - name: "productos"
     label: "Productos"
     files:
-      - file: "productos.json"
-        label: "Lista de productos"
+      - label: "Lista de productos"
         name: "productos"
+        file: "productos.json"
+        format: "json"
         fields:
           - label: "Productos"
             name: "items"
@@ -19,6 +20,6 @@ collections:
             fields:
               - { label: "Nombre", name: "nombre", widget: "string" }
               - { label: "Precio", name: "precio", widget: "number" }
-              - { label: "Categoría", name: "categoria", widget: "string" }
               - { label: "Imagen", name: "imagen", widget: "image" }
               - { label: "Disponible", name: "disponible", widget: "boolean", default: true }
+              - { label: "Descripción", name: "descripcion", widget: "text" }
