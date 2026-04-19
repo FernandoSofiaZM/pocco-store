@@ -54,6 +54,7 @@ button {
 
 .agotado {
   background: red;
+  cursor: not-allowed;
 }
 
 .carrito-box {
@@ -73,6 +74,7 @@ button {
   width: 100%;
   height: 100%;
   top: 0;
+  left: 0;
 }
 
 .modal-content {
@@ -81,4 +83,9 @@ button {
   padding: 20px;
   width: 300px;
   border-radius: 10px;
+}
+
+.descripcion {
+  font-size: 0.8em;
+  color: gray;
 }
