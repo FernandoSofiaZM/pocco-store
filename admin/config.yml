@@ -22,4 +22,5 @@ collections:
               - { label: "Precio", name: "precio", widget: "number" }
               - { label: "Imagen", name: "imagen", widget: "image" }
               - { label: "Disponible", name: "disponible", widget: "boolean", default: true }
+              - { label: "Categoría", name: "categoria", widget: "string" }
               - { label: "Descripción", name: "descripcion", widget: "text" }
