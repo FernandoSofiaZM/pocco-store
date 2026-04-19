@@ -15,13 +15,14 @@ function mostrar(lista){
   lista.forEach(p => {
     cont.innerHTML += `
       <div class="card">
-        <img src="${p.imagen}">
+        <img src="${p.imagen}" alt="${p.nombre}">
         <h3>${p.nombre}</h3>
         <p>L ${p.precio}</p>
+        <p class="descripcion">${p.descripcion || ""}</p>
         ${
           p.disponible
           ? `<button onclick="agregar('${p.nombre}', ${p.precio})">Agregar</button>`
-          : `<button class="agotado">Agotado</button>`
+          : `<button class="agotado" disabled>Agotado</button>`
         }
       </div>
     `;
@@ -56,7 +57,7 @@ function cerrarCarrito(){
 }
 
 function comprarWhatsApp(){
-  let mensaje = "Hola, quiero cotizar:\n";
+  let mensaje = "Hola, quiero cotizar estos productos:\n";
   let total = 0;
 
   carrito.forEach(p=>{
@@ -64,8 +65,9 @@ function comprarWhatsApp(){
     total += p.precio;
   });
 
-  mensaje += `Total: L${total}`;
+  mensaje += `\nTotal: L${total}`;
 
+  // Reemplaza el número por el tuyo
   window.open("https://wa.me/504XXXXXXXX?text=" + encodeURIComponent(mensaje));
 }
 
