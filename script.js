@@ -34,6 +34,23 @@ function filtrar(cat) {
 }
 
 function comprar(nombre, precio) {
+    let carrito = [];
+
+function agregarAlCarrito(nombre, precio) {
+  carrito.push({ nombre, precio });
+  alert("Producto agregado");
+}
+
+function comprarWhatsApp() {
+  let mensaje = "Hola, quiero cotizar:\n";
+
+  carrito.forEach(p => {
+    mensaje += `- ${p.nombre} L${p.precio}\n`;
+  });
+
+  let url = "https://wa.me/504XXXXXXXX?text=" + encodeURIComponent(mensaje);
+  window.open(url, "_blank");
+}
     const mensaje = `Hola, quiero comprar:%0AProducto: ${nombre}%0APrecio: L.${precio}`;
     window.open(`https://wa.me/504TU_NUMERO?text=${mensaje}`);
 }
