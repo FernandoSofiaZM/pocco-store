@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "img"
+public_folder: "/img"
+
+collections:
+  - name: "productos"
+    label: "Productos"
+    files:
+      - file: "productos.json"
+        label: "Lista de productos"
+        name: "productos"
+        fields:
+          - label: "Productos"
+            name: "productos"
+            widget: "list"
+            fields:
+              - { label: "Nombre", name: "nombre", widget: "string" }
+              - { label: "Precio", name: "precio", widget: "number" }
+              - { label: "Imagen", name: "imagen", widget: "image" }
+              - { label: "Categoría", name: "categoria", widget: "string" }
