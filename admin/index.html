@@ -2,20 +2,18 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>POCCO'S STORE - Admin</title>
+  <title>Admin Panel</title>
+
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <script>
-    // Este script asegura que el CMS se inicie sin problemas.
-    if (window.CMS) {
-      window.CMS.init();
-    } else {
-      window.addEventListener('load', function() {
-        if (window.CMS) window.CMS.init();
-      });
-    }
-  </script>
 </body>
 </html>
