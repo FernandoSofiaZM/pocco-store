@@ -1,25 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Tienda</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Admin - POCCO'S STORE</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #login, #admin {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      background: purple;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #admin {
+      display: none;
+    }
+
+    .producto {
+      background: #eee;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<h1>POCCO'S STORE</h1>
+<h1>POCCO'S STORE - ADMIN</h1>
 
-<form id="formProducto">
-  <input type="text" id="nombre" placeholder="Nombre" required>
-  <input type="number" id="precio" placeholder="Precio" required>
-  <input type="text" id="categoria" placeholder="Categoría" required>
-  <input type="file" id="imagen" accept="image/*" required>
-  <button>Agregar producto</button>
-</form>
+<!-- LOGIN -->
+<div id="login">
+  <h2>Iniciar sesión</h2>
+  <input type="email" id="email" placeholder="Correo">
+  <input type="password" id="password" placeholder="Contraseña">
+  <button onclick="login()">Entrar</button>
+</div>
 
-<hr>
+<!-- ADMIN -->
+<div id="admin">
+  <h2>Agregar producto</h2>
+  <input type="text" id="nombre" placeholder="Nombre">
+  <input type="number" id="precio" placeholder="Precio">
+  <input type="text" id="categoria" placeholder="Categoría">
+  <button onclick="agregarProducto()">Agregar producto</button>
 
-<div id="lista"></div>
+  <h2>Productos</h2>
+  <div id="lista"></div>
 
-<script src="script.js"></script>
+  <button onclick="logout()">Cerrar sesión</button>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // 🔥 PEGA AQUÍ TU CONFIG DE FIREBASE
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_PROYECTO.firebaseapp.com",
+    projectId: "TU_PROYECTO",
+    storageBucket: "TU_PROYECTO.appspot.com",
+    messagingSenderId: "XXXX",
+    appId: "XXXX"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // LOGIN
+  function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => alert("Bienvenido"))
+      .catch(() => alert("Error al iniciar sesión"));
+  }
+
+  // LOGOUT
+  function logout() {
+    auth.signOut();
+  }
+
+  // PROTEGER ADMIN
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("admin").style.display = "block";
+      cargarProductos();
+    } else {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("admin").style.display = "none";
+    }
+  });
+
+  // AGREGAR PRODUCTO
+  function agregarProducto() {
+    const nombre = document.getElementById("nombre").value;
+    const precio = document.getElementById("precio").value;
+    const categoria = document.getElementById("categoria").value;
+
+    db.collection("productos").add({
+      nombre,
+      precio,
+      categoria
+    }).then(() => {
+      alert("Producto agregado");
+      limpiar();
+    });
+  }
+
+  function limpiar() {
+    document.getElementById("nombre").value = "";
+    document.getElementById("precio").value = "";
+    document.getElementById("categoria").value = "";
+  }
+
+  // MOSTRAR PRODUCTOS
+  function cargarProductos() {
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    db.collection("productos").onSnapshot(snapshot => {
+      lista.innerHTML = "";
+      snapshot.forEach(doc => {
+        const p = doc.data();
+        lista.innerHTML += `
+          <div class="producto">
+            <b>${p.nombre}</b><br>
+            Precio: ${p.precio}<br>
+            Categoría: ${p.categoria}
+          </div>
+        `;
+      });
+    });
+  }
+</script>
+
 </body>
 </html>
